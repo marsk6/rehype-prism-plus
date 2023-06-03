@@ -36,7 +36,49 @@ const getLanguage = (node) => {
  * @return { (index:number) => boolean }
  */
 const calculateLinesToHighlight = (meta) => {
-  const RE = /{([\d,-]+)}/
+  const RE = /\*{([\d,-]+)}/
+  // Remove space between {} e.g. {1, 3}
+  const parsedMeta = meta
+    .split(',')
+    .map((str) => str.trim())
+    .join()
+  if (RE.test(parsedMeta)) {
+    const strlineNumbers = RE.exec(parsedMeta)[1]
+    const lineNumbers = rangeParser(strlineNumbers)
+    return (index) => lineNumbers.includes(index + 1)
+  } else {
+    return () => false
+  }
+}
+
+/**
+ *
+ * @param {string} meta
+ * @return { (index:number) => boolean }
+ */
+const calculateLinesToShowRemove = (meta) => {
+  const RE = /\+{([\d,-]+)}/
+  // Remove space between {} e.g. {1, 3}
+  const parsedMeta = meta
+    .split(',')
+    .map((str) => str.trim())
+    .join()
+  if (RE.test(parsedMeta)) {
+    const strlineNumbers = RE.exec(parsedMeta)[1]
+    const lineNumbers = rangeParser(strlineNumbers)
+    return (index) => lineNumbers.includes(index + 1)
+  } else {
+    return () => false
+  }
+}
+
+/**
+ *
+ * @param {string} meta
+ * @return { (index:number) => boolean }
+ */
+const calculateLinesToShowAdd = (meta) => {
+  const RE = /-{([\d,-]+)}/
   // Remove space between {} e.g. {1, 3}
   const parsedMeta = meta
     .split(',')
@@ -197,10 +239,10 @@ const rehypePrismGenerator = (refractor) => {
       if (lang) {
         try {
           let rootLang
-          if (lang?.includes('diff-')){
-            rootLang=lang.split('-')[1]
-          } else{
-            rootLang=lang
+          if (lang?.includes('diff-')) {
+            rootLang = lang.split('-')[1]
+          } else {
+            rootLang = lang
           }
           // @ts-ignore
           refractorRoot = refractor.highlight(toString(node), rootLang)
@@ -238,6 +280,9 @@ const rehypePrismGenerator = (refractor) => {
       }
 
       const shouldHighlightLine = calculateLinesToHighlight(meta)
+      const shouldAddLine = calculateLinesToShowAdd(meta)
+      const shouldRemoveLine = calculateLinesToShowRemove(meta)
+
       const startingLineNumber = calculateStartingLine(meta)
       const codeLineArray = createLineNodes(refractorRoot.position.end.line)
 
@@ -256,7 +301,14 @@ const rehypePrismGenerator = (refractor) => {
           (node) => node.position.start.line <= i + 1 && node.position.end.line >= i + 1
         )
         line.children = treeExtract.children
-
+        line.children.unshift({
+          type: 'element',
+          tagName: 'span',
+          properties: {
+            className: 'line-suffix',
+          },
+          children: [],
+        })
         // Line number
         if (
           (meta.toLowerCase().includes('showLineNumbers'.toLowerCase()) ||
@@ -273,10 +325,22 @@ const rehypePrismGenerator = (refractor) => {
         }
 
         // Diff classes
-        if ((lang === 'diff' || lang?.includes('diff-')) && toString(line).substring(0, 1) === '-') {
-          line.properties.className.push('deleted')
-        } else if ((lang === 'diff' || lang?.includes('diff-')) && toString(line).substring(0, 1) === '+') {
+        if (shouldAddLine(i)) {
           line.properties.className.push('inserted')
+          // @ts-ignore
+          line.children[0].children.push({
+            type: 'text',
+            value: '+',
+          })
+        }
+
+        if (shouldRemoveLine(i)) {
+          line.properties.className.push('deleted')
+          // @ts-ignore
+          line.children[0].children.push({
+            type: 'text',
+            value: '-',
+          })
         }
       }
 

@@ -74,7 +74,7 @@ function s(e, r) {
   for (var t = 0, n = new Array(r); t < r; t++) n[t] = e[t]
   return n
 }
-function a(e, r) {
+function u(e, r) {
   var t = ('undefined' != typeof Symbol && e[Symbol.iterator]) || e['@@iterator']
   if (t) return (t = t.call(e)).next.bind(t)
   if (
@@ -105,7 +105,7 @@ function a(e, r) {
     'Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
   )
 }
-var u = function (o) {
+var a = function (o) {
   return function (l) {
     return (
       void 0 === l && (l = {}),
@@ -113,9 +113,9 @@ var u = function (o) {
         e(r, 'element', s)
       }
     )
-    function s(e, s, u) {
+    function s(e, s, a) {
       var c, p
-      if (u && 'pre' === u.tagName && 'code' === e.tagName) {
+      if (a && 'pre' === a.tagName && 'code' === e.tagName) {
         var f =
           (null == e || null == (c = e.data) ? void 0 : c.meta) ||
           (null == e || null == (p = e.properties) ? void 0 : p.metastring) ||
@@ -130,7 +130,7 @@ var u = function (o) {
         var m,
           h,
           d = (function (e) {
-            for (var r, t = a(e.properties.className); !(r = t()).done; ) {
+            for (var r, t = u(e.properties.className); !(r = t()).done; ) {
               var n = r.value
               if ('language-' === n.slice(0, 9)) return n.slice(9).toLowerCase()
             }
@@ -138,10 +138,10 @@ var u = function (o) {
           })(e)
         if (d)
           try {
-            var v
-            ;(v = null != d && d.includes('diff-') ? d.split('-')[1] : d),
-              (m = o.highlight(r(e), v)),
-              (u.properties.className = (u.properties.className || []).concat('language-' + v))
+            var g
+            ;(g = null != d && d.includes('diff-') ? d.split('-')[1] : d),
+              (m = o.highlight(r(e), g)),
+              (a.properties.className = (a.properties.className || []).concat('language-' + g))
           } catch (r) {
             if (!l.ignoreMissing || !/Unknown language/.test(r.message)) throw r
             m = e
@@ -157,10 +157,10 @@ var u = function (o) {
                 (t.position = { start: { line: h, column: 1 }, end: { line: h, column: 1 } }),
                   r.push(t)
               else
-                for (var o, l = n.split('\n'), s = a(l.entries()); !(o = s()).done; ) {
-                  var u = o.value,
-                    c = u[0],
-                    p = u[1]
+                for (var o, l = n.split('\n'), s = u(l.entries()); !(o = s()).done; ) {
+                  var a = o.value,
+                    c = a[0],
+                    p = a[1]
                   r.push({
                     type: 'text',
                     value: c === l.length - 1 ? p : p + '\n',
@@ -192,7 +192,7 @@ var u = function (o) {
                 }
               : { start: { line: 0, column: 0 }, end: { line: 0, column: 0 } })
         for (
-          var g,
+          var v,
             y = (function (e) {
               var r = /\*{([\d,-]+)}/,
                 t = e
@@ -270,15 +270,15 @@ var u = function (o) {
             })(m.position.end.line),
             j = ['showlinenumbers=false', 'showlinenumbers="false"', 'showlinenumbers={false}'],
             S = function () {
-              var e = g.value,
-                r = e[0],
-                n = e[1]
-              n.properties.className = ['code-line']
-              var i = t(m, function (e) {
-                return e.position.start.line <= r + 1 && e.position.end.line >= r + 1
+              var e = v.value,
+                n = e[0],
+                i = e[1]
+              i.properties.className = ['code-line']
+              var o = t(m, function (e) {
+                return e.position.start.line <= n + 1 && e.position.end.line >= n + 1
               })
-              ;(n.children = i.children),
-                n.children.unshift({
+              ;(i.children = o.children),
+                i.children.unshift({
                   type: 'element',
                   tagName: 'span',
                   properties: { className: 'line-suffix' },
@@ -289,18 +289,23 @@ var u = function (o) {
                   j.some(function (e) {
                     return f.toLowerCase().includes(e)
                   }) ||
-                  ((n.properties.line = [(r + w).toString()]),
-                  n.properties.className.push('line-number')),
-                y(r) && n.properties.className.push('highlight-line'),
-                b(r) &&
-                  (n.properties.className.push('inserted'),
-                  n.children[0].children.push({ type: 'text', value: '+' })),
-                N(r) &&
-                  (n.properties.className.push('deleted'),
-                  n.children[0].children.push({ type: 'text', value: '-' }))
+                  ((i.properties.line = [(n + w).toString()]),
+                  i.properties.className.push('line-number')),
+                y(n) && i.properties.className.push('highlight-line'),
+                ('diff' === d || (null != d && d.includes('diff-'))) && '-' === r(i).substring(0, 1)
+                  ? i.properties.className.push('deleted')
+                  : ('diff' === d || (null != d && d.includes('diff-'))) &&
+                    '+' === r(i).substring(0, 1) &&
+                    i.properties.className.push('inserted'),
+                b(n) &&
+                  (i.properties.className.push('inserted'),
+                  i.children[0].children.push({ type: 'text', value: '+' })),
+                N(n) &&
+                  (i.properties.className.push('deleted'),
+                  i.children[0].children.push({ type: 'text', value: '-' }))
             },
-            O = a(x.entries());
-          !(g = O()).done;
+            O = u(x.entries());
+          !(v = O()).done;
 
         )
           S()
@@ -309,5 +314,5 @@ var u = function (o) {
     }
   }
 }
-export { u as default }
+export { a as default }
 //# sourceMappingURL=generator.es.js.map

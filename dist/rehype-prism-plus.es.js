@@ -140,10 +140,10 @@ var p = function (i) {
             })(e)
           if (d)
             try {
-              var v
-              ;(v = null != d && d.includes('diff-') ? d.split('-')[1] : d),
-                (m = i.highlight(r(e), v)),
-                (a.properties.className = (a.properties.className || []).concat('language-' + v))
+              var g
+              ;(g = null != d && d.includes('diff-') ? d.split('-')[1] : d),
+                (m = i.highlight(r(e), g)),
+                (a.properties.className = (a.properties.className || []).concat('language-' + g))
             } catch (r) {
               if (!o.ignoreMissing || !/Unknown language/.test(r.message)) throw r
               m = e
@@ -194,7 +194,7 @@ var p = function (i) {
                   }
                 : { start: { line: 0, column: 0 }, end: { line: 0, column: 0 } })
           for (
-            var g,
+            var v,
               y = (function (e) {
                 var r = /\*{([\d,-]+)}/,
                   t = e
@@ -272,15 +272,15 @@ var p = function (i) {
               })(m.position.end.line),
               j = ['showlinenumbers=false', 'showlinenumbers="false"', 'showlinenumbers={false}'],
               S = function () {
-                var e = g.value,
-                  r = e[0],
-                  n = e[1]
-                n.properties.className = ['code-line']
-                var i = t(m, function (e) {
-                  return e.position.start.line <= r + 1 && e.position.end.line >= r + 1
+                var e = v.value,
+                  n = e[0],
+                  i = e[1]
+                i.properties.className = ['code-line']
+                var l = t(m, function (e) {
+                  return e.position.start.line <= n + 1 && e.position.end.line >= n + 1
                 })
-                ;(n.children = i.children),
-                  n.children.unshift({
+                ;(i.children = l.children),
+                  i.children.unshift({
                     type: 'element',
                     tagName: 'span',
                     properties: { className: 'line-suffix' },
@@ -291,18 +291,24 @@ var p = function (i) {
                     j.some(function (e) {
                       return f.toLowerCase().includes(e)
                     }) ||
-                    ((n.properties.line = [(r + w).toString()]),
-                    n.properties.className.push('line-number')),
-                  y(r) && n.properties.className.push('highlight-line'),
-                  b(r) &&
-                    (n.properties.className.push('inserted'),
-                    n.children[0].children.push({ type: 'text', value: '+' })),
-                  N(r) &&
-                    (n.properties.className.push('deleted'),
-                    n.children[0].children.push({ type: 'text', value: '-' }))
+                    ((i.properties.line = [(n + w).toString()]),
+                    i.properties.className.push('line-number')),
+                  y(n) && i.properties.className.push('highlight-line'),
+                  ('diff' === d || (null != d && d.includes('diff-'))) &&
+                  '-' === r(i).substring(0, 1)
+                    ? i.properties.className.push('deleted')
+                    : ('diff' === d || (null != d && d.includes('diff-'))) &&
+                      '+' === r(i).substring(0, 1) &&
+                      i.properties.className.push('inserted'),
+                  b(n) &&
+                    (i.properties.className.push('inserted'),
+                    i.children[0].children.push({ type: 'text', value: '+' })),
+                  N(n) &&
+                    (i.properties.className.push('deleted'),
+                    i.children[0].children.push({ type: 'text', value: '-' }))
               },
               O = c(x.entries());
-            !(g = O()).done;
+            !(v = O()).done;
 
           )
             S()

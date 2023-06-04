@@ -139,10 +139,10 @@ var c = (function (e) {
           })(r)
         if (d)
           try {
-            var v
-            ;(v = null != d && d.includes('diff-') ? d.split('-')[1] : d),
-              (m = e.highlight(t(r), v)),
-              (a.properties.className = (a.properties.className || []).concat('language-' + v))
+            var g
+            ;(g = null != d && d.includes('diff-') ? d.split('-')[1] : d),
+              (m = e.highlight(t(r), g)),
+              (a.properties.className = (a.properties.className || []).concat('language-' + g))
           } catch (e) {
             if (!l.ignoreMissing || !/Unknown language/.test(e.message)) throw e
             m = r
@@ -193,7 +193,7 @@ var c = (function (e) {
                 }
               : { start: { line: 0, column: 0 }, end: { line: 0, column: 0 } })
         for (
-          var g,
+          var v,
             y = (function (e) {
               var r = /\*{([\d,-]+)}/,
                 t = e
@@ -271,15 +271,15 @@ var c = (function (e) {
             })(m.position.end.line),
             j = ['showlinenumbers=false', 'showlinenumbers="false"', 'showlinenumbers={false}'],
             S = function () {
-              var e = g.value,
+              var e = v.value,
                 r = e[0],
-                t = e[1]
-              t.properties.className = ['code-line']
-              var i = n(m, function (e) {
+                i = e[1]
+              i.properties.className = ['code-line']
+              var o = n(m, function (e) {
                 return e.position.start.line <= r + 1 && e.position.end.line >= r + 1
               })
-              ;(t.children = i.children),
-                t.children.unshift({
+              ;(i.children = o.children),
+                i.children.unshift({
                   type: 'element',
                   tagName: 'span',
                   properties: { className: 'line-suffix' },
@@ -290,18 +290,23 @@ var c = (function (e) {
                   j.some(function (e) {
                     return f.toLowerCase().includes(e)
                   }) ||
-                  ((t.properties.line = [(r + w).toString()]),
-                  t.properties.className.push('line-number')),
-                y(r) && t.properties.className.push('highlight-line'),
+                  ((i.properties.line = [(r + w).toString()]),
+                  i.properties.className.push('line-number')),
+                y(r) && i.properties.className.push('highlight-line'),
+                ('diff' === d || (null != d && d.includes('diff-'))) && '-' === t(i).substring(0, 1)
+                  ? i.properties.className.push('deleted')
+                  : ('diff' === d || (null != d && d.includes('diff-'))) &&
+                    '+' === t(i).substring(0, 1) &&
+                    i.properties.className.push('inserted'),
                 b(r) &&
-                  (t.properties.className.push('inserted'),
-                  t.children[0].children.push({ type: 'text', value: '+' })),
+                  (i.properties.className.push('inserted'),
+                  i.children[0].children.push({ type: 'text', value: '+' })),
                 N(r) &&
-                  (t.properties.className.push('deleted'),
-                  t.children[0].children.push({ type: 'text', value: '-' }))
+                  (i.properties.className.push('deleted'),
+                  i.children[0].children.push({ type: 'text', value: '-' }))
             },
             O = u(x.entries());
-          !(g = O()).done;
+          !(v = O()).done;
 
         )
           S()

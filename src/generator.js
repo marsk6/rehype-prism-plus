@@ -325,6 +325,19 @@ const rehypePrismGenerator = (refractor) => {
         }
 
         // Diff classes
+        if (
+          (lang === 'diff' || lang?.includes('diff-')) &&
+          toString(line).substring(0, 1) === '-'
+        ) {
+          line.properties.className.push('deleted')
+        } else if (
+          (lang === 'diff' || lang?.includes('diff-')) &&
+          toString(line).substring(0, 1) === '+'
+        ) {
+          line.properties.className.push('inserted')
+        }
+
+        // Diff classes
         if (shouldAddLine(i)) {
           line.properties.className.push('inserted')
           // @ts-ignore

@@ -94,6 +94,22 @@ const calculateLinesToShowAdd = (meta) => {
 }
 
 /**
+ *
+ * @param {string} meta
+ * @return {string}
+ */
+const getCodeBlockTitle = (meta) => {
+  const RE = /title={(.+?)}/
+  // Remove space between {} e.g. {1, 3}
+  const parsedMeta = meta
+    .split(',')
+    .map((str) => str.trim())
+    .join()
+  const [origin, match] = parsedMeta.match(RE) || []
+  return match
+}
+
+/**
  * Check if we want to start the line numbering from a given number or 1
  * showLineNumbers=5, will start the numbering from 5
  * @param {string} meta
@@ -217,7 +233,6 @@ const rehypePrismGenerator = (refractor) => {
       if (!parent || parent.tagName !== 'pre' || node.tagName !== 'code') {
         return
       }
-
       let meta = /** @type {string} */ (node?.data?.meta || node?.properties?.metastring || '')
       // Coerce className to array
       if (node.properties.className) {
@@ -230,6 +245,24 @@ const rehypePrismGenerator = (refractor) => {
         node.properties.className = []
       }
       node.properties.className.push('code-highlight')
+      const codeTitle = getCodeBlockTitle(meta)
+      if (codeTitle) {
+        if (!parent.properties) {
+          parent.properties = {}
+        }
+        if (parent.properties.className) {
+          if (typeof parent.properties.className === 'boolean') {
+            parent.properties.className = []
+          } else if (!Array.isArray(parent.properties.className)) {
+            parent.properties.className = [parent.properties.className]
+          }
+        } else {
+          parent.properties.className = []
+        }
+        parent.properties.className.push('code-block-title')
+        parent.properties.title = codeTitle
+      }
+
       const lang = getLanguage(node)
 
       /** @type {Element} */

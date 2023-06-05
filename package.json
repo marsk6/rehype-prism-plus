@@ -37,7 +37,7 @@
     "tsc": "tsc --watch",
     "lint": "eslint .",
     "prettier": "prettier --write '*.js'",
-    "test": "uvu"
+    "test": "uvu ./test"
   },
   "repository": {
     "type": "git",

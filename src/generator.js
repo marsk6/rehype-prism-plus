@@ -57,7 +57,7 @@ const calculateLinesToHighlight = (meta) => {
  * @return { (index:number) => boolean }
  */
 const calculateLinesToShowRemove = (meta) => {
-  const RE = /\+{([\d,-]+)}/
+  const RE = /-{([\d,-]+)}/
   // Remove space between {} e.g. {1, 3}
   const parsedMeta = meta
     .split(',')
@@ -78,7 +78,7 @@ const calculateLinesToShowRemove = (meta) => {
  * @return { (index:number) => boolean }
  */
 const calculateLinesToShowAdd = (meta) => {
-  const RE = /-{([\d,-]+)}/
+  const RE = /\+{([\d,-]+)}/
   // Remove space between {} e.g. {1, 3}
   const parsedMeta = meta
     .split(',')

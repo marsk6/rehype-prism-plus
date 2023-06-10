@@ -10,7 +10,7 @@ function i() {
     r = new WeakMap()
   function t(e, n, i) {
     var o = new RegExp(e, n)
-    return r.set(o, i || r.get(e)), l(o, t.prototype)
+    return r.set(o, i || r.get(e)), s(o, t.prototype)
   }
   function n(e, t) {
     var n = r.get(t)
@@ -36,11 +36,11 @@ function i() {
         )
       }
       if ('function' == typeof i) {
-        var l = this
+        var s = this
         return e[Symbol.replace].call(this, t, function () {
           var e = arguments
           return (
-            'object' != typeof e[e.length - 1] && (e = [].slice.call(e)).push(n(e, l)),
+            'object' != typeof e[e.length - 1] && (e = [].slice.call(e)).push(n(e, s)),
             i.apply(this, e)
           )
         })
@@ -57,38 +57,38 @@ function o(e, r) {
     constructor: { value: e, writable: !0, configurable: !0 },
   })),
     Object.defineProperty(e, 'prototype', { writable: !1 }),
-    r && l(e, r)
+    r && s(e, r)
 }
-function l(e, r) {
+function s(e, r) {
   return (
-    (l =
+    (s =
       Object.setPrototypeOf ||
       function (e, r) {
         return (e.__proto__ = r), e
       }),
-    l(e, r)
+    s(e, r)
   )
 }
-function s(e, r) {
+function l(e, r) {
   ;(null == r || r > e.length) && (r = e.length)
   for (var t = 0, n = new Array(r); t < r; t++) n[t] = e[t]
   return n
 }
-function u(e, r) {
+function a(e, r) {
   var t = ('undefined' != typeof Symbol && e[Symbol.iterator]) || e['@@iterator']
   if (t) return (t = t.call(e)).next.bind(t)
   if (
     Array.isArray(e) ||
     (t = (function (e, r) {
       if (e) {
-        if ('string' == typeof e) return s(e, r)
+        if ('string' == typeof e) return l(e, r)
         var t = Object.prototype.toString.call(e).slice(8, -1)
         return (
           'Object' === t && e.constructor && (t = e.constructor.name),
           'Map' === t || 'Set' === t
             ? Array.from(e)
             : 'Arguments' === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t)
-            ? s(e, r)
+            ? l(e, r)
             : void 0
         )
       }
@@ -105,20 +105,20 @@ function u(e, r) {
     'Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
   )
 }
-var a = function (o) {
-  return function (l) {
+var u = function (o) {
+  return function (s) {
     return (
-      void 0 === l && (l = {}),
+      void 0 === s && (s = {}),
       function (r) {
-        e(r, 'element', s)
+        e(r, 'element', l)
       }
     )
-    function s(e, s, a) {
-      var c, p
-      if (a && 'pre' === a.tagName && 'code' === e.tagName) {
+    function l(e, l, u) {
+      var p, c
+      if (u && 'pre' === u.tagName && 'code' === e.tagName) {
         var f =
-          (null == e || null == (c = e.data) ? void 0 : c.meta) ||
-          (null == e || null == (p = e.properties) ? void 0 : p.metastring) ||
+          (null == e || null == (p = e.data) ? void 0 : p.meta) ||
+          (null == e || null == (c = e.properties) ? void 0 : c.metastring) ||
           ''
         e.properties.className
           ? 'boolean' == typeof e.properties.className
@@ -127,73 +127,92 @@ var a = function (o) {
               (e.properties.className = [e.properties.className])
           : (e.properties.className = []),
           e.properties.className.push('code-highlight')
-        var m,
-          h,
-          d = (function (e) {
-            for (var r, t = u(e.properties.className); !(r = t()).done; ) {
+        var m = (function (e) {
+          return (e
+            .split(',')
+            .map(function (e) {
+              return e.trim()
+            })
+            .join()
+            .match(/title={(.+?)}/) || [])[1]
+        })(f)
+        m &&
+          (u.properties || (u.properties = {}),
+          u.properties.className
+            ? 'boolean' == typeof u.properties.className
+              ? (u.properties.className = [])
+              : Array.isArray(u.properties.className) ||
+                (u.properties.className = [u.properties.className])
+            : (u.properties.className = []),
+          u.properties.className.push('code-block-title'),
+          (u.properties.title = m))
+        var h,
+          d,
+          v = (function (e) {
+            for (var r, t = a(e.properties.className); !(r = t()).done; ) {
               var n = r.value
               if ('language-' === n.slice(0, 9)) return n.slice(9).toLowerCase()
             }
             return null
           })(e)
-        if (d)
+        if (v)
           try {
             var g
-            ;(g = null != d && d.includes('diff-') ? d.split('-')[1] : d),
-              (m = o.highlight(r(e), g)),
-              (a.properties.className = (a.properties.className || []).concat('language-' + g))
+            ;(g = null != v && v.includes('diff-') ? v.split('-')[1] : v),
+              (h = o.highlight(r(e), g)),
+              (u.properties.className = (u.properties.className || []).concat('language-' + g))
           } catch (r) {
-            if (!l.ignoreMissing || !/Unknown language/.test(r.message)) throw r
-            m = e
+            if (!s.ignoreMissing || !/Unknown language/.test(r.message)) throw r
+            h = e
           }
-        else m = e
-        ;(m.children = ((h = 1),
+        else h = e
+        ;(h.children = ((d = 1),
         function e(r) {
           return r.reduce(function (r, t) {
             if ('text' === t.type) {
               var n = t.value,
                 i = (n.match(/\n/g) || '').length
               if (0 === i)
-                (t.position = { start: { line: h, column: 1 }, end: { line: h, column: 1 } }),
+                (t.position = { start: { line: d, column: 1 }, end: { line: d, column: 1 } }),
                   r.push(t)
               else
-                for (var o, l = n.split('\n'), s = u(l.entries()); !(o = s()).done; ) {
-                  var a = o.value,
-                    c = a[0],
-                    p = a[1]
+                for (var o, s = n.split('\n'), l = a(s.entries()); !(o = l()).done; ) {
+                  var u = o.value,
+                    p = u[0],
+                    c = u[1]
                   r.push({
                     type: 'text',
-                    value: c === l.length - 1 ? p : p + '\n',
+                    value: p === s.length - 1 ? c : c + '\n',
                     position: {
-                      start: { line: h + c, column: 1 },
-                      end: { line: h + c, column: 1 },
+                      start: { line: d + p, column: 1 },
+                      end: { line: d + p, column: 1 },
                     },
                   })
                 }
-              return (h += i), r
+              return (d += i), r
             }
             if (Object.prototype.hasOwnProperty.call(t, 'children')) {
-              var f = h
+              var f = d
               return (
                 (t.children = e(t.children)),
                 r.push(t),
-                (t.position = { start: { line: f, column: 1 }, end: { line: h, column: 1 } }),
+                (t.position = { start: { line: f, column: 1 }, end: { line: d, column: 1 } }),
                 r
               )
             }
             return r.push(t), r
           }, [])
-        })(m.children)),
-          (m.position =
-            m.children.length > 0
+        })(h.children)),
+          (h.position =
+            h.children.length > 0
               ? {
-                  start: { line: m.children[0].position.start.line, column: 0 },
-                  end: { line: m.children[m.children.length - 1].position.end.line, column: 0 },
+                  start: { line: h.children[0].position.start.line, column: 0 },
+                  end: { line: h.children[h.children.length - 1].position.end.line, column: 0 },
                 }
               : { start: { line: 0, column: 0 }, end: { line: 0, column: 0 } })
         for (
-          var v,
-            y = (function (e) {
+          var y,
+            b = (function (e) {
               var r = /\*{([\d,-]+)}/,
                 t = e
                   .split(',')
@@ -212,7 +231,7 @@ var a = function (o) {
                 return !1
               }
             })(f),
-            b = (function (e) {
+            N = (function (e) {
               var r = /-{([\d,-]+)}/,
                 t = e
                   .split(',')
@@ -231,7 +250,7 @@ var a = function (o) {
                 return !1
               }
             })(f),
-            N = (function (e) {
+            w = (function (e) {
               var r = /\+{([\d,-]+)}/,
                 t = e
                   .split(',')
@@ -250,7 +269,7 @@ var a = function (o) {
                 return !1
               }
             })(f),
-            w = (function (e) {
+            x = (function (e) {
               var r = /*#__PURE__*/ i(/showLineNumbers=([0-9]+)/i, { lines: 1 })
               if (r.test(e)) {
                 var t = r.exec(e)
@@ -258,7 +277,7 @@ var a = function (o) {
               }
               return 1
             })(f),
-            x = (function (e) {
+            j = (function (e) {
               for (var r = new Array(e), t = 0; t < e; t++)
                 r[t] = {
                   type: 'element',
@@ -267,14 +286,14 @@ var a = function (o) {
                   children: [],
                 }
               return r
-            })(m.position.end.line),
-            j = ['showlinenumbers=false', 'showlinenumbers="false"', 'showlinenumbers={false}'],
+            })(h.position.end.line),
+            A = ['showlinenumbers=false', 'showlinenumbers="false"', 'showlinenumbers={false}'],
             S = function () {
-              var e = v.value,
+              var e = y.value,
                 n = e[0],
                 i = e[1]
               i.properties.className = ['code-line']
-              var o = t(m, function (e) {
+              var o = t(h, function (e) {
                 return e.position.start.line <= n + 1 && e.position.end.line >= n + 1
               })
               ;(i.children = o.children),
@@ -285,34 +304,34 @@ var a = function (o) {
                   children: [],
                 }),
                 (!f.toLowerCase().includes('showLineNumbers'.toLowerCase()) &&
-                  !l.showLineNumbers) ||
-                  j.some(function (e) {
+                  !s.showLineNumbers) ||
+                  A.some(function (e) {
                     return f.toLowerCase().includes(e)
                   }) ||
-                  ((i.properties.line = [(n + w).toString()]),
+                  ((i.properties.line = [(n + x).toString()]),
                   i.properties.className.push('line-number')),
-                y(n) && i.properties.className.push('highlight-line'),
-                ('diff' === d || (null != d && d.includes('diff-'))) && '-' === r(i).substring(0, 1)
+                b(n) && i.properties.className.push('highlight-line'),
+                ('diff' === v || (null != v && v.includes('diff-'))) && '-' === r(i).substring(0, 1)
                   ? i.properties.className.push('deleted')
-                  : ('diff' === d || (null != d && d.includes('diff-'))) &&
+                  : ('diff' === v || (null != v && v.includes('diff-'))) &&
                     '+' === r(i).substring(0, 1) &&
                     i.properties.className.push('inserted'),
-                b(n) &&
+                N(n) &&
                   (i.properties.className.push('inserted'),
                   i.children[0].children.push({ type: 'text', value: '+' })),
-                N(n) &&
+                w(n) &&
                   (i.properties.className.push('deleted'),
                   i.children[0].children.push({ type: 'text', value: '-' }))
             },
-            O = u(x.entries());
-          !(v = O()).done;
+            O = a(j.entries());
+          !(y = O()).done;
 
         )
           S()
-        x.length > 0 && '' === r(x[x.length - 1]).trim() && x.pop(), (e.children = x)
+        j.length > 0 && '' === r(j[j.length - 1]).trim() && j.pop(), (e.children = j)
       }
     }
   }
 }
-export { a as default }
+export { u as default }
 //# sourceMappingURL=generator.es.js.map

@@ -1,3 +1,33 @@
+Based on [timlrx/rehype-prism-plus](https://github.com/timlrx/rehype-prism-plus), thanks [timlrx](https://github.com/timlrx)'s work.
+
+# Some change
+
+add new diff code options
+
+hightlight lines
+
+```javascript *{1,3-4,10}
+var a = 1
+```
+
+remove lines
+
+```javascript -{1,3-4,6}
+var a = 1
+```
+
+add lines
+
+```javascript +{1,3-4,6}
+var a = 1
+```
+
+support code block title
+
+style
+
+---
+
 # rehype-prism-plus
 
 ![sample-code-block-output](sample-code-block.png)

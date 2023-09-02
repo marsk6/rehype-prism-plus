@@ -315,6 +315,7 @@ const rehypePrismGenerator = (refractor) => {
       const shouldHighlightLine = calculateLinesToHighlight(meta)
       const shouldAddLine = calculateLinesToShowAdd(meta)
       const shouldRemoveLine = calculateLinesToShowRemove(meta)
+      const shouldShowDiff = meta.includes('diff')
 
       const startingLineNumber = calculateStartingLine(meta)
       const codeLineArray = createLineNodes(refractorRoot.position.end.line)
@@ -358,16 +359,12 @@ const rehypePrismGenerator = (refractor) => {
         }
 
         // Diff classes
-        if (
-          (lang === 'diff' || lang?.includes('diff-')) &&
-          toString(line).substring(0, 1) === '-'
-        ) {
-          line.properties.className.push('deleted')
-        } else if (
-          (lang === 'diff' || lang?.includes('diff-')) &&
-          toString(line).substring(0, 1) === '+'
-        ) {
-          line.properties.className.push('inserted')
+        if (shouldShowDiff || lang === 'diff' || lang?.includes('diff-')) {
+          if (toString(line).substring(0, 1) === '-') {
+            line.properties.className.push('deleted')
+          } else if (toString(line).substring(0, 1) === '+') {
+            line.properties.className.push('inserted')
+          }
         }
 
         // Diff classes

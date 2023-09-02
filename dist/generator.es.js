@@ -269,7 +269,8 @@ var u = function (o) {
                 return !1
               }
             })(f),
-            x = (function (e) {
+            x = f.includes('diff'),
+            j = (function (e) {
               var r = /*#__PURE__*/ i(/showLineNumbers=([0-9]+)/i, { lines: 1 })
               if (r.test(e)) {
                 var t = r.exec(e)
@@ -277,7 +278,7 @@ var u = function (o) {
               }
               return 1
             })(f),
-            j = (function (e) {
+            A = (function (e) {
               for (var r = new Array(e), t = 0; t < e; t++)
                 r[t] = {
                   type: 'element',
@@ -287,8 +288,8 @@ var u = function (o) {
                 }
               return r
             })(h.position.end.line),
-            A = ['showlinenumbers=false', 'showlinenumbers="false"', 'showlinenumbers={false}'],
-            S = function () {
+            S = ['showlinenumbers=false', 'showlinenumbers="false"', 'showlinenumbers={false}'],
+            O = function () {
               var e = y.value,
                 n = e[0],
                 i = e[1]
@@ -305,17 +306,16 @@ var u = function (o) {
                 }),
                 (!f.toLowerCase().includes('showLineNumbers'.toLowerCase()) &&
                   !s.showLineNumbers) ||
-                  A.some(function (e) {
+                  S.some(function (e) {
                     return f.toLowerCase().includes(e)
                   }) ||
-                  ((i.properties.line = [(n + x).toString()]),
+                  ((i.properties.line = [(n + j).toString()]),
                   i.properties.className.push('line-number')),
                 b(n) && i.properties.className.push('highlight-line'),
-                ('diff' === v || (null != v && v.includes('diff-'))) && '-' === r(i).substring(0, 1)
-                  ? i.properties.className.push('deleted')
-                  : ('diff' === v || (null != v && v.includes('diff-'))) &&
-                    '+' === r(i).substring(0, 1) &&
-                    i.properties.className.push('inserted'),
+                (x || 'diff' === v || (null != v && v.includes('diff-'))) &&
+                  ('-' === r(i).substring(0, 1)
+                    ? i.properties.className.push('deleted')
+                    : '+' === r(i).substring(0, 1) && i.properties.className.push('inserted')),
                 N(n) &&
                   (i.properties.className.push('inserted'),
                   i.children[0].children.push({ type: 'text', value: '+' })),
@@ -323,12 +323,12 @@ var u = function (o) {
                   (i.properties.className.push('deleted'),
                   i.children[0].children.push({ type: 'text', value: '-' }))
             },
-            O = a(j.entries());
-          !(y = O()).done;
+            L = a(A.entries());
+          !(y = L()).done;
 
         )
-          S()
-        j.length > 0 && '' === r(j[j.length - 1]).trim() && j.pop(), (e.children = j)
+          O()
+        A.length > 0 && '' === r(A[A.length - 1]).trim() && A.pop(), (e.children = A)
       }
     }
   }

@@ -55,7 +55,6 @@ test('display code block title', () => {
     {},
     'title={.github/publish.yaml}'
   )
-  console.log('result', result)
   assert.ok(result.includes(`<pre class="language-css">`))
   // assert.ok(result.includes(`<span class="code-line inserted">`))
   // assert.ok(result.includes(`<span class="code-line deleted">`))
